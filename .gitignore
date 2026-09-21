@@ -1,0 +1,20 @@
+# IDE Configuration
+
+.idea/
+.vscode/
+.obsidian/
+
+# Framework Configuration
+
+# Dependencies
+
+node_modules/
+.angular/
+
+# Output
+
+out/
+target/
+build/
+dist/
+coverage/
