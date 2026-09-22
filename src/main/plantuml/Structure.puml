@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User {
+- username: String
+- alias: String
+- password: String
+- mediaEntries: Set<MediaEntry>
+}
+
+class Rating {
+- user: User
+- mediaEntry: MediaEntry
+- stars: int
+- likes: Map<User, Boolean>
+- comments: List<String>
+}
+
+class MediaEntry {
+- title: String
+- description: String
+- type: MediaType
+- genres: Set<Genre>
+- releaseYear: int
+- minimumAge: int
+- ratings: Map<User, int>
+- favourites: Set<User>
+}
+
+enum MediaType {
+GAME,
+MOVIE,
+SHOW
+}
+
+enum Genre {
+ACTION,
+ADVENTURE,
+COMEDY,
+DRAMA,
+FANTASY,
+HORROR,
+MYSTERY,
+ROMANCE,
+SCIENCE_FICTION,
+THRILLER,
+WESTERN
+}
+
+User "1  "-->"0..n  "MediaEntry
+User "1  "-->"0..n  "Rating
+Rating "1  "-->"1  "MediaEntry
+MediaEntry .. MediaType
+MediaEntry .right. Genre
+@enduml

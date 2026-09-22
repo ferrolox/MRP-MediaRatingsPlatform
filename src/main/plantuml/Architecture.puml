@@ -1,0 +1,66 @@
+@startuml
+allowmixing
+
+() "HTTP" as HTTP
+
+package "Application (Java)" {
+  frame "Stack" {
+    folder "Configuration" {
+    }
+
+    folder "Foundation" {
+    }
+
+    folder "Domain" {
+      !include Structure.puml
+    }
+
+    folder "Service" {
+    }
+
+    folder "Presentation" {
+    }
+  }
+
+  node "Pipeline" {
+      component "Presentation Layer" as PresentationLayer
+      component "Service Layer" as ServiceLayer
+      component "Persistence Layer" as PersistenceLayer
+  }
+}
+
+cloud {
+  component "Internet" as Internet
+}
+
+() "JDBC" as JDBC
+
+node "Container (Docker)" {
+  node "Server (PostgreSQL)" {
+    component "Database" as Database
+
+    database "Database" {
+      () "SQL" as SQL
+      JDBC -down- SQL
+      SQL -right-> Schema
+
+      component "Schema" as Schema
+
+      frame "Schema" {
+        component "Users" as Users
+        component "Ratings" as Ratings
+        component "Entries" as Entries
+        component "Types" as Types
+        component "Genres" as Genres
+      }
+    }
+  }
+}
+
+Internet <-down- HTTP
+HTTP -down-> PresentationLayer
+ServiceLayer <-down-> PersistenceLayer
+PresentationLayer <-down-> ServiceLayer
+PersistenceLayer <-right- JDBC
+
+@enduml
