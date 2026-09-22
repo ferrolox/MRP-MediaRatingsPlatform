@@ -18,3 +18,7 @@ target/
 build/
 dist/
 coverage/
+
+# Documents
+
+*.pdf
