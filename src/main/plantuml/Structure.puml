@@ -1,55 +1,46 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class User {
-- username: String
-- alias: String
-- password: String
-- mediaEntries: Set<MediaEntry>
+entity User {
+  - username: String
+  - alias: String
+  - passwordHash: String
 }
 
-class Rating {
-- user: User
-- mediaEntry: MediaEntry
-- stars: int
-- likes: Map<User, Boolean>
-- comments: List<String>
+entity Rating {
+  - author: User
+  - mediaEntry: MediaEntry
+  - stars: int
+  - text: String
+  - likes: Set<User>
+  - timestamp: LocalDateTime
+  - hidden: boolean
 }
 
-class MediaEntry {
-- title: String
-- description: String
-- type: MediaType
-- genres: Set<Genre>
-- releaseYear: int
-- minimumAge: int
-- ratings: Map<User, int>
-- favourites: Set<User>
+entity MediaEntry {
+  - author: User
+  - title: String
+  - description: String
+  - type: MediaType
+  - genres: Set<Genre>
+  - releaseYear: int
+  - minimumAge: int
+  - favourites: Set<User>
+}
+
+entity Genre {
+  - name: String
 }
 
 enum MediaType {
-GAME,
-MOVIE,
-SHOW
+  GAME,
+  MOVIE,
+  SHOW
 }
 
-enum Genre {
-ACTION,
-ADVENTURE,
-COMEDY,
-DRAMA,
-FANTASY,
-HORROR,
-MYSTERY,
-ROMANCE,
-SCIENCE_FICTION,
-THRILLER,
-WESTERN
-}
-
-User "1  "-->"0..n  "MediaEntry
-User "1  "-->"0..n  "Rating
-Rating "1  "-->"1  "MediaEntry
-MediaEntry .. MediaType
-MediaEntry .right. Genre
+User "1  "<-left-"0..*   " MediaEntry
+User "1  "<--"0..*   " Rating
+Rating "0..*  "*-left-"1   " MediaEntry
+MediaEntry .left. MediaType
+MediaEntry "1..*  "*-down-"0..*   " Genre
 @enduml
