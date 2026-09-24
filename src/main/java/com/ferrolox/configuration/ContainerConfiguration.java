@@ -25,7 +25,7 @@ public class ContainerConfiguration {
             } catch (Exception exception) {
                 if (attempt == maximumRetries) {
                     throw new RuntimeException(
-                            "Failed to start PostgreSQL after " + maximumRetries + " attempts.",
+                            "Failed to start PostgreSQL Container after " + maximumRetries + " attempts.",
                             exception
                     );
                 }
