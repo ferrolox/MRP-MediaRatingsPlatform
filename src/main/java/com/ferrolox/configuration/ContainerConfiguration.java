@@ -24,20 +24,13 @@ public class ContainerConfiguration {
                 return;
             } catch (Exception exception) {
                 if (attempt == maximumRetries) {
-                    throw new RuntimeException(
-                            "Failed to start PostgreSQL Container after " + maximumRetries + " attempts.",
-                            exception
-                    );
+                    throw new RuntimeException("Failed to start PostgreSQL Container after " + maximumRetries + " attempts.", exception);
                 }
 
-                try {
-                    Thread.sleep(retryDelay);
-                } catch (InterruptedException interruptedException) {
+                try { Thread.sleep(retryDelay); }
+                catch (InterruptedException interruptedException) {
                     Thread.currentThread().interrupt();
-                    throw new RuntimeException(
-                            "PostgreSQL startup interrupted.",
-                            interruptedException
-                    );
+                    throw new RuntimeException("PostgreSQL startup interrupted.", interruptedException);
                 }
             }
         }
