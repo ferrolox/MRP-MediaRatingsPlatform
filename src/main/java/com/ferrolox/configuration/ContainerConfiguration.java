@@ -5,9 +5,7 @@ import org.testcontainers.utility.DockerImageName;
 
 public class ContainerConfiguration {
 
-    private static final PostgreSQLContainer postgresContainer = new PostgreSQLContainer(
-            DockerImageName.parse("postgres:17-alpine")
-    )
+    private static final PostgreSQLContainer postgresContainer = new PostgreSQLContainer(DockerImageName.parse("postgres:17-alpine"))
         .withDatabaseName("database")
         .withUsername("username")
         .withPassword("password")
