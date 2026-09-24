@@ -15,17 +15,17 @@ public class ContainerConfiguration {
         );
 
     public static void start() {
-        final int maxRetries = 10;
+        final int maximumRetries = 10;
         final long retryDelay = 5000;
 
-        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+        for (int attempt = 1; attempt <= maximumRetries; attempt++) {
             try {
                 postgresContainer.start();
                 return;
             } catch (Exception exception) {
-                if (attempt == maxRetries) {
+                if (attempt == maximumRetries) {
                     throw new RuntimeException(
-                            "Failed to start PostgreSQL after " + maxRetries + " attempts.",
+                            "Failed to start PostgreSQL after " + maximumRetries + " attempts.",
                             exception
                     );
                 }
