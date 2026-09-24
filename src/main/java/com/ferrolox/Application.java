@@ -8,13 +8,13 @@ public class Application {
     void main() {
         ContainerConfiguration.start();
 
-        DatabaseConfiguration database = new DatabaseConfiguration(
+        DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(
             ContainerConfiguration.getJdbcUrl(),
             ContainerConfiguration.getUsername(),
             ContainerConfiguration.getPassword()
         );
 
-        database.migrate();
+        databaseConfiguration.migrate();
 
         // Repositories
         // Services
