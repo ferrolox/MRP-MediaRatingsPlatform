@@ -1,5 +1,9 @@
 package com.ferrolox.configuration;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -12,6 +16,7 @@ public class ContainerConfiguration {
         .withReuse(true)
         .withCreateContainerCmdModifier(command ->
             command.withName("BIF3E-MediaRatingsPlatform-Postgres")
+				   .withHostConfig(new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(5432), new ExposedPort(5432))))
         );
 
     public static void start() {
