@@ -1,7 +1,9 @@
 package com.ferrolox;
 
-import com.ferrolox.configuration.DatabaseConfiguration;
-import com.ferrolox.configuration.ContainerConfiguration;
+import com.ferrolox.configuration.*;
+import com.ferrolox.presentation.*;
+
+import io.javalin.Javalin;
 
 public class Application {
 
@@ -16,8 +18,11 @@ public class Application {
 
         databaseConfiguration.migrate();
 
+		Javalin server = ServerConfiguration.create(new HomeController());
+
+		server.start(8080);
+
         // Repositories
         // Services
-        // HTTP server
     }
 }
