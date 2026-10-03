@@ -5,20 +5,20 @@ CREATE TYPE MEDIATYPE AS ENUM (
 );
 
 CREATE TABLE users (
-    id            BIGSERIAL PRIMARY KEY,
+    id            SERIAL PRIMARY KEY,
     username      VARCHAR(255) NOT NULL UNIQUE,
     alias         VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE genres (
-    id   BIGSERIAL PRIMARY KEY,
+    id   SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE media_entries (
-    id           BIGSERIAL PRIMARY KEY,
-    author_id    BIGINT       NOT NULL,
+    id           SERIAL PRIMARY KEY,
+    author_id    INT       NOT NULL,
     title        VARCHAR(255) NOT NULL,
     description  TEXT         NOT NULL,
     type         MEDIATYPE    NOT NULL,
@@ -27,9 +27,9 @@ CREATE TABLE media_entries (
 );
 
 CREATE TABLE ratings (
-    id             BIGSERIAL PRIMARY KEY,
-    author_id      BIGINT    NOT NULL,
-    media_entry_id BIGINT    NOT NULL,
+    id             SERIAL PRIMARY KEY,
+    author_id      INT    NOT NULL,
+    media_entry_id INT    NOT NULL,
     stars          INTEGER   NOT NULL,
     text           TEXT,
     timestamp      TIMESTAMP NOT NULL,
@@ -40,22 +40,22 @@ CREATE TABLE ratings (
 );
 
 CREATE TABLE media_entry_genres (
-    media_entry_id BIGINT NOT NULL,
-    genre_id       BIGINT NOT NULL,
+    media_entry_id INT NOT NULL,
+    genre_id       INT NOT NULL,
 
     PRIMARY KEY (media_entry_id, genre_id)
 );
 
 CREATE TABLE media_entry_favourites (
-    media_entry_id BIGINT NOT NULL,
-    user_id        BIGINT NOT NULL,
+    media_entry_id INT NOT NULL,
+    user_id        INT NOT NULL,
 
     PRIMARY KEY (media_entry_id, user_id)
 );
 
 CREATE TABLE rating_likes (
-    rating_id BIGINT NOT NULL,
-    user_id   BIGINT NOT NULL,
+    rating_id INT NOT NULL,
+    user_id   INT NOT NULL,
 
     PRIMARY KEY (rating_id, user_id)
 );
