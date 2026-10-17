@@ -23,4 +23,68 @@ public class Rating {
 		this.timestamp = timestamp;
 		this.hidden = hidden;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public MediaEntry getMediaEntry() {
+		return mediaEntry;
+	}
+
+	public void setMediaEntry(MediaEntry mediaEntry) {
+		this.mediaEntry = mediaEntry;
+	}
+
+	public int getStars() {
+		return stars;
+	}
+
+	public void setStars(int stars) {
+		this.stars = stars;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Set<User> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Set<User> likes) {
+		this.likes = likes;
+	}
+
+	public LocalDateTime getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(LocalDateTime timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
 }
