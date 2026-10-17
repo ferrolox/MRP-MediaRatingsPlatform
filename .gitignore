@@ -19,6 +19,10 @@ build/
 dist/
 coverage/
 
+# Environment Variables
+
+.env
+
 # Documents
 
 *.pdf
