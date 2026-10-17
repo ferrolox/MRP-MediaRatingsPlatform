@@ -1,4 +1,4 @@
-package com.ferrolox.presentation;
+package com.ferrolox.presentation.controllers;
 
 import io.javalin.http.Context;
 
