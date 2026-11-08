@@ -18,7 +18,7 @@ CREATE TABLE genres (
 
 CREATE TABLE media_entries (
     id           SERIAL PRIMARY KEY,
-    author_id    INT       NOT NULL,
+    author_id    INTEGER      NOT NULL,
     title        VARCHAR(255) NOT NULL,
     description  TEXT         NOT NULL,
     type         MEDIATYPE    NOT NULL,
@@ -28,34 +28,34 @@ CREATE TABLE media_entries (
 
 CREATE TABLE ratings (
     id             SERIAL PRIMARY KEY,
-    author_id      INT    NOT NULL,
-    media_entry_id INT    NOT NULL,
-    stars          INTEGER   NOT NULL,
+    author_id      INTEGER   NOT NULL,
+    media_entry_id INTEGER   NOT NULL,
+    score          INTEGER   NOT NULL,
     text           TEXT,
     timestamp      TIMESTAMP NOT NULL,
     hidden         BOOLEAN   NOT NULL DEFAULT FALSE,
 
-    CONSTRAINT chk_ratings_stars
-        CHECK (stars BETWEEN 1 AND 5)
+    CONSTRAINT chk_rating_score
+        CHECK (score BETWEEN 1 AND 5)
 );
 
 CREATE TABLE media_entry_genres (
-    media_entry_id INT NOT NULL,
-    genre_id       INT NOT NULL,
+    media_entry_id INTEGER NOT NULL,
+    genre_id       INTEGER NOT NULL,
 
     PRIMARY KEY (media_entry_id, genre_id)
 );
 
 CREATE TABLE media_entry_favourites (
-    media_entry_id INT NOT NULL,
-    user_id        INT NOT NULL,
+    media_entry_id INTEGER NOT NULL,
+    user_id        INTEGER NOT NULL,
 
     PRIMARY KEY (media_entry_id, user_id)
 );
 
 CREATE TABLE rating_likes (
-    rating_id INT NOT NULL,
-    user_id   INT NOT NULL,
+    rating_id INTEGER NOT NULL,
+    user_id   INTEGER NOT NULL,
 
     PRIMARY KEY (rating_id, user_id)
 );
@@ -73,7 +73,8 @@ ALTER TABLE ratings
 ALTER TABLE ratings
     ADD CONSTRAINT fk_ratings_media_entry
         FOREIGN KEY (media_entry_id)
-            REFERENCES media_entries (id);
+            REFERENCES media_entries (id)
+            ON DELETE CASCADE;
 
 ALTER TABLE media_entry_genres
     ADD CONSTRAINT fk_media_entry_genres_media_entry
