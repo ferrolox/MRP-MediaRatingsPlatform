@@ -33,7 +33,7 @@ public class TokenService {
 		           .compact();
 	}
 
-	public int getUserId(String token) {
+	public int validate(String token) {
 		Claims claims = Jwts.parser()
 		                    .verifyWith(key)
 		                    .build()
