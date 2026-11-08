@@ -11,9 +11,9 @@ public interface UserInterface {
 
 	Optional<User> findByUsername(String username) throws DatabaseException;
 
-	Integer save(User user) throws DatabaseException;
+	int save(User user) throws DatabaseException;
 
 	void update(User user) throws DatabaseException;
 
-	void delete(int id) throws DatabaseException;
+	void deleteById(int id) throws DatabaseException;
 }

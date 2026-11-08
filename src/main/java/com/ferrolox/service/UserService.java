@@ -5,6 +5,7 @@ import com.ferrolox.foundation.exceptions.*;
 import com.ferrolox.persistence.repositories.UserRepository;
 import com.ferrolox.security.*;
 
+import java.awt.dnd.InvalidDnDOperationException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,12 @@ public class UserService {
 		this.tokenService = tokenService;
 	}
 
-	public String login(User user) throws InvalidCredentialsException, DatabaseException {
+	public User findById(int id) throws DatabaseException, InexistentResourceException {
+		return userRepository.findById(id)
+		                     .orElseThrow(() -> new InexistentResourceException("User with ID " + id + " does not exist."));
+	}
+
+	public String login(User user) throws DatabaseException, InvalidCredentialsException {
 		Optional<User> result = userRepository.findByUsername(user.getUsername());
 
 		if (result.isPresent() && hashingService.verify(user.getPassword(), result.get().getPassword())) {
@@ -32,11 +38,11 @@ public class UserService {
 		throw new InvalidCredentialsException("Invalid username or password");
 	}
 
-	public String register(User user) throws ConflictingCredentialsException, WeakCredentialsException, DatabaseException {
+	public String register(User user) throws DatabaseException, InvalidParametersException, ConflictingCredentialsException {
 		Optional<User> result = userRepository.findByUsername(user.getUsername());
 
 		if (result.isPresent()) throw new ConflictingCredentialsException("Username already in use");
-		if (!PASSWORD_PATTERN.matcher(user.getPassword()).matches()) throw new WeakCredentialsException("Password does not meet complexity requirements");
+		if (!PASSWORD_PATTERN.matcher(user.getPassword()).matches()) throw new InvalidParametersException("Password does not meet complexity requirements");
 
 		user.setPassword(hashingService.generate(user.getPassword()));
 		int userId = userRepository.save(user);

@@ -20,17 +20,46 @@ public class UserRepository implements UserInterface {
 	}
 
 	@Override
-	public Optional<User> findById(int id) {
-		return Optional.empty();
+	public Optional<User> findById(int id) throws DatabaseException {
+		String sql = """
+	        SELECT
+	            id,
+	            username,
+	            alias
+	        FROM users
+	        WHERE id = ?
+        """;
+
+		try (
+			Connection connection = database.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql)
+		) {
+			statement.setInt(1, id);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (!resultSet.next()) return Optional.empty();
+
+				User user = new User(
+					resultSet.getInt("id"),
+					resultSet.getString("username"),
+					resultSet.getString("alias"),
+					null
+				);
+
+				return Optional.of(user);
+			}
+		} catch (SQLException exception) {
+			throw new DatabaseException("Failed to find User", exception);
+		}
 	}
 
 	@Override
 	public Optional<User> findByUsername(String username) throws DatabaseException {
 		String sql = """
-				SELECT id, username, alias, password_hash
-			    FROM users
-			    WHERE username = ?;
-			""";
+			SELECT id, username, alias, password_hash
+		    FROM users
+		    WHERE username = ?;
+		""";
 
 		try (
 			Connection connection = database.getConnection();
@@ -56,12 +85,12 @@ public class UserRepository implements UserInterface {
 	}
 
 	@Override
-	public Integer save(User user) throws DatabaseException {
+	public int save(User user) throws DatabaseException {
 		String sql = """
-				INSERT INTO users (username, alias, password_hash)
-				VALUES (?, ?, ?)
-				RETURNING id;
-			""";
+			INSERT INTO users (username, alias, password_hash)
+			VALUES (?, ?, ?)
+			RETURNING id;
+		""";
 
 		try (
 			Connection connection = database.getConnection();
@@ -87,7 +116,7 @@ public class UserRepository implements UserInterface {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void deleteById(int id) {
 
 	}
 }
