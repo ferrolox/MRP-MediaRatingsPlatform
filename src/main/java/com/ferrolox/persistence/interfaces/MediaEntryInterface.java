@@ -1,6 +1,8 @@
 package com.ferrolox.persistence.interfaces;
 
 import com.ferrolox.domain.*;
+import com.ferrolox.foundation.exceptions.DatabaseException;
+import com.ferrolox.foundation.exceptions.InexistentResourceException;
 import com.ferrolox.persistence.queryObjects.MediaEntryFilter;
 
 import java.util.List;
@@ -8,15 +10,15 @@ import java.util.Optional;
 
 public interface MediaEntryInterface {
 
-	Optional<MediaEntry> findById(int id);
+	List<MediaEntry> find(MediaEntryFilter filter) throws DatabaseException;
 
-	List<MediaEntry> find(MediaEntryFilter filter);
+	Optional<MediaEntry> findById(int id) throws DatabaseException;
 
-	List<MediaEntry> findFavouritesByUserId(int userId);
+	List<MediaEntry> findFavouritesByUserId(int userId) throws DatabaseException;
 
-	int save(MediaEntry mediaEntry);
+	int save(MediaEntry mediaEntry) throws DatabaseException;
 
-	void update(MediaEntry mediaEntry);
+	void update(MediaEntry mediaEntry) throws DatabaseException, InexistentResourceException;
 
-	void delete(int id);
+	void deleteById(int id) throws DatabaseException, InexistentResourceException;
 }

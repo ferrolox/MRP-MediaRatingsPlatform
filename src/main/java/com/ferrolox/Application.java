@@ -36,15 +36,18 @@ public class Application {
 		IO.println("\033[33m[ ... ]\033[0m Starting HTTP server");
 
 	    UserRepository userRepository = new UserRepository(database);
+		MediaEntryRepository mediaEntryRepository = new MediaEntryRepository(database);
 
 	    HashingService hashingService = new HashingService(System.getenv("PASSWORD_HASH_PEPPER"));
 	    TokenService tokenService = new TokenService(System.getenv("JWT_SECRET"), Duration.ofDays(7));
 	    UserService userService = new UserService(userRepository, hashingService, tokenService);
+		MediaEntryService mediaEntryService = new MediaEntryService(mediaEntryRepository, userService);
 
 		HomeController homeController = new HomeController();
 	    UserController userController = new UserController(userService);
+		MediaEntryController mediaEntryController = new MediaEntryController(mediaEntryService);
 
-		Javalin server = ServerConfiguration.create(homeController, userController);
+		Javalin server = ServerConfiguration.create(tokenService, homeController, userController, mediaEntryController);
 		server.start(8080);
 
 		IO.println("\033[32m[ OK ]\033[0m HTTP server running on port 8080");
