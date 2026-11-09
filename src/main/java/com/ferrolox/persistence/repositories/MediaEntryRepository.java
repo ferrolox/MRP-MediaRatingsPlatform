@@ -101,8 +101,6 @@ public class MediaEntryRepository implements MediaEntryInterface {
 			case AVERAGE_SCORE_DESC -> "rating_summary.average_score DESC NULLS LAST";
 		};
 
-		selectMediaEntrySql += ", media_entry.title ASC";
-
 		try (
 			Connection connection = database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(selectMediaEntrySql)
@@ -142,11 +140,9 @@ public class MediaEntryRepository implements MediaEntryInterface {
 						mediaEntries.put(mediaEntryId, mediaEntry);
 					}
 
-					int genreId = resultSet.getInt("genre_id");
-
 					if (!resultSet.wasNull()) {
 						mediaEntry.getGenres().add(new Genre(
-							genreId,
+							resultSet.getInt("genre_id"),
 							resultSet.getString("genre_name")
 						));
 					}
@@ -213,11 +209,9 @@ public class MediaEntryRepository implements MediaEntryInterface {
 				);
 
 				do {
-					int genreId = resultSet.getInt("genre_id");
-
 					if (!resultSet.wasNull()) {
 						mediaEntry.getGenres().add(new Genre(
-							genreId,
+							resultSet.getInt("genre_id"),
 							resultSet.getString("genre_name")
 						));
 					}
